@@ -1,14 +1,15 @@
 
-# Clipboard Data
+# Data Obfuscation
 
-MITRE ATT&CK Technique: [T1115](https://attack.mitre.org/wiki/Technique/T1115)
+MITRE ATT&CK Technique: [T1001](https://attack.mitre.org/wiki/Technique/T1001)
 
 
 
-## cmd
+## Metasploit - Mimic Google Certificat
 
-    <command> | clip
-    clip < readme.txt
+    use auxiliary/gather/impersonate_ssl
+    set rhost www.google.com
+    run
 
 ## PowerShell
 
