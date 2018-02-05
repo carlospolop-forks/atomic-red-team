@@ -17,3 +17,7 @@ Ping Sweep:
 ### ARP
 
     arp -a
+    
+### Reverse DNS
+
+    FOR /L %P IN (1,1,254) DO (nslookup 172.16.0.%P) PS> 1..254 | %{[System.Net.Dns]::GetHostEntry("172.16.0.$_")}|select hostname
