@@ -31,3 +31,26 @@ https://blog.cobaltstrike.com/2017/01/24/scripting-matt-nelsons-mmc20-applicatio
 Reference:
 
  https://blog.cobaltstrike.com/2015/07/22/winrm-is-my-remote-access-tool/
+ 
+ ### WinRM - PS Remoting
+ 
+    PS> winrm quickconfig
+
+    #Trust all (*) hosts for outbound communications – Must be SYSTEM
+    PS> Set-Item WSMan:localhost\client\trustedhosts -value * -force
+
+    #Trust a selection of hosts for outbound communications – Must be SYSTEM
+    PS> Set-Item WSMan:localhost\Client\TrustedHosts -Value 'machineA,machineB’ -force
+
+    #Create a Valid Credential Object in Powershell
+    PS> $Username = '<domain>\<username>'
+    PS> $Password = ’Password12345'
+    PS> $PSS = ConvertTo-SecureString $Password -AsPlainText -Force
+    PS> $Creds = new-object system.management.automation.PSCredential $Username,$PSS
+
+    #Start a PSSession
+    PS> $Session = New-PSSession -ComputerName 10.150.10.100 -Credential $Creds
+    PS> Invoke-Command -Session $Session –Command {Get-Process}
+
+    #List PSSessions
+    PS> Get-PSSession
