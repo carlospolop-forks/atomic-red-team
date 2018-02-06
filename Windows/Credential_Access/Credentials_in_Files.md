@@ -10,3 +10,7 @@ MITRE ATT&CK Technique: [T1081](https://attack.mitre.org/wiki/Technique/T1081)
 Input:
 
     Get-GPPPassword -Server EXAMPLE.COM
+
+#retrieve all the computer dns host names a GPP password applies to
+    
+     PS> Get-DomainOU -GPLink '<GPP_GUID>' | % {Get-DomainComputer -SearchBase $_.distinguishedname -Properties dnshostname}
