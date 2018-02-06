@@ -1,7 +1,7 @@
 # Modify Registry (Remote Registry Modification)
 
 MITRE ATT&CK Technique: [T1112](https://attack.mitre.org/wiki/Technique/T112)
-## cmd
+## Remote Registry via Powershell Manually
 
     $Username = “Domain\User”
     $Password = “Password” 
