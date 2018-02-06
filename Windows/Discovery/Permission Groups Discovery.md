@@ -2,9 +2,11 @@
 
 MITRE ATT&CK Technique: [T1069](https://attack.mitre.org/wiki/Technique/T1069)
 
-## Old way with net – does not support recursive searches
+## Old Technique with Net Command – Does not support recursive searches
 
     CMD> net group “domain admins” /domain
+    
+## PowerShell Technique
 
 #Recursively searching active directory groups
     
