@@ -10,5 +10,5 @@ MITRE ATT&CK Technique: [T1172](https://attack.mitre.org/wiki/Technique/T1172)
 curl -v https://d0.awsstatic.com --header 'Host: dj5y90shm93v2.cloudfront.net'
 
 
-|| Info
+## Info
 https://inyour.network/blog/2017/Domain-Fronting-PoshC2/
