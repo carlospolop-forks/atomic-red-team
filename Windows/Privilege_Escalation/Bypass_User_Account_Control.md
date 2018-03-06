@@ -8,3 +8,6 @@ There are many ways to perform UAC bypasses when a user is in the local administ
 
 [UACBypass](https://github.com/redcanaryco/atomic-red-team/tree/master/Windows/Payloads/UACBypass)
 
+## Search for computers with LocalAccountTokenFilterPolicy set
+
+    PS> Get-DomainComputer -LDAPFilter "(|(operatingsystem=*7*)(operatingsystem=*2008*))" -SPN "wsman*" -Properties dnshostname,serviceprincipalname,operatingsystem,distinguishedname
